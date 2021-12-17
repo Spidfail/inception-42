@@ -55,7 +55,7 @@ services :
     restart: always
 
   
-
+      
   wordpress:
     depends_on:
       - db
@@ -100,4 +100,4 @@ services :
     networks:
       - "inc_network"
     restart: always 
-
+   

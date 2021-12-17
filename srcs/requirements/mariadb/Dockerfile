@@ -21,9 +21,10 @@ WORKDIR	/app
 
 
 RUN		apt update \
-		&& apt-get install -y vim mariadb-server \
+		&& apt-get install -y vim mariadb-server mariadb-client systemd \
 		&& service mariadb start \
-		&& mariadb -u root < db.sql
+		&& mariadb -u root < db.sql \
+		&& cp ./my.cnf /etc/
 
 
 CMD		["/bin/sh"]

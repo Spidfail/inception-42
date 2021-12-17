@@ -33,7 +33,6 @@ RUN		apk update && apk upgrade && apk add openrc wget vim php7 php7-fpm php7-opc
 		&& tar xfvz /tmp/latest.tar.gz -C /var/www/html/wordpress --strip-components 1 \
 		&& mv /tmp/wp-config.php /var/www/html/wordpress/
 
-
 RUN		addgroup admin
 
 CMD		/bin/sh
