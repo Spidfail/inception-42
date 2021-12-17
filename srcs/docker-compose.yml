@@ -1,0 +1,103 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    docker-compose.yml                                 :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: guhernan <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/12/14 15:53:30 by guhernan          #+#    #+#              #
+#    Updated: 2021/12/16 14:01:53 by guhernan         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+version: "3"
+
+volumes:
+  db_volume:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/guhernan/data/db_volume
+      o: bind
+  wordpress_volume:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/guhernan/data/wordpress_volume
+      o: bind
+
+networks:
+  inc_network:
+    driver: bridge
+
+
+services :
+
+  db:
+    container_name: inc_db
+    tty: true
+    stdin_open: true
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
+    # env_file: mariadb.env
+    environment:
+      MYSQL_WORDPRESS_HOST: wordpress:80
+      MYSQL_NGINX_HOST: nginx:80
+      MYSQL_ROOT_PASSWORD: eVP-=h^ENMezz8+838pC
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    volumes:
+      - db_volume:/var/lib/mysql:rw
+    networks:
+      - "inc_network"
+    restart: always
+
+  
+
+  wordpress:
+    depends_on:
+      - db
+    container_name: inc_wordpress
+    tty: true
+    stdin_open: true
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - wordpress_volume:/var/www/html/wordpress:rw
+    # env_file: wordpress.env
+    networks:
+      - "inc_network"
+    ports:
+      - "80"
+    restart: always
+ 
+
+  nginx:
+    depends_on:
+      - wordpress
+    container_name: inc_nginx
+    tty: true
+    stdin_open: true
+    build:
+      context: ./requirements/nginx
+      dockerfile: Dockerfile
+    # env_file: nginx.env
+    environment:
+      NGINX_DB_HOST: db:3306
+      NGINX_WORDPRESS_HOST: wordpress:80
+    volumes:
+       - wordpress_volume:/var/www/html:rw
+    ports:
+      - "80:80"
+    networks:
+      - "inc_network"
+    restart: always 
+
