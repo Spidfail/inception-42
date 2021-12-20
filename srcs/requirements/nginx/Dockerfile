@@ -10,12 +10,17 @@
 #                                                                              #
 # **************************************************************************** #
 
-FROM	alpine
+FROM	debian
 
-COPY	. /app
+COPY	. /tmp
 
-RUN		apk update && apk upgrade \
-		&& apk add openrc vim openssl curl ca-certificates nginx
+WORKDIR	/tmp
+
+RUN		apt-get -y update && apt-get -y upgrade \
+		&& apt-get install -y vim openssl curl ca-certificates nginx \
+		&& mv nginx.conf /etc/nginx/nginx.conf \
+		&& addgroup --system --gid 101 nginx \
+		&& adduser --system --disabled-login --ingroup nginx --no-create-home --home /nonexistent --gecos "nginx user" --shell /bin/false --uid 101 nginx
 
 # nginx location : /etc/nginx -> nginx.conf
 # set TLS v1.3 :
@@ -25,4 +30,4 @@ RUN		apk update && apk upgrade \
 # # ssl_prefer_server_ciphers off;
 # # reload nginx
 
-CMD		/bin/sh
+CMD ["nginx", "-g", "daemon off;"]

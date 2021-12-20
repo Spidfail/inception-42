@@ -10,8 +10,8 @@
 --                                                                              #
 -- **************************************************************************** #
 
-CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin';
-GRANT ALL ON *.* TO 'admin'@'localhost' IDENTIFIED BY 'password' WITH GRANT OPTION;
+CREATE USER 'guhernan'@'localhost' IDENTIFIED BY 'guhernan';
+GRANT ALL ON *.* TO 'guhernan'@'localhost' IDENTIFIED BY 'wordpress' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 
 CREATE DATABASE wordpress_data;

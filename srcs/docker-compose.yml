@@ -44,9 +44,9 @@ services :
     environment:
       MYSQL_WORDPRESS_HOST: wordpress:80
       MYSQL_NGINX_HOST: nginx:80
-      MYSQL_ROOT_PASSWORD: eVP-=h^ENMezz8+838pC
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wordpress_data
+      MYSQL_USER: guhernan
       MYSQL_PASSWORD: wordpress
     volumes:
       - db_volume:/var/lib/mysql:rw
@@ -67,16 +67,14 @@ services :
       dockerfile: Dockerfile
     environment:
       WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_USER: guhernan
       WORDPRESS_DB_PASSWORD: wordpress
-      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_NAME: wordpress_data
     volumes:
       - wordpress_volume:/var/www/html/wordpress:rw
     # env_file: wordpress.env
     networks:
       - "inc_network"
-    ports:
-      - "80"
     restart: always
  
 
@@ -96,7 +94,7 @@ services :
     volumes:
        - wordpress_volume:/var/www/html:rw
     ports:
-      - "80:80"
+      - "443:443"
     networks:
       - "inc_network"
     restart: always 
