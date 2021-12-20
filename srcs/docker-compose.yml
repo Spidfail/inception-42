@@ -34,7 +34,7 @@ networks:
 services :
 
   db:
-    container_name: inc_db
+    container_name: db
     tty: true
     stdin_open: true
     build:
@@ -42,8 +42,8 @@ services :
       dockerfile: Dockerfile
     # env_file: mariadb.env
     environment:
-      MYSQL_WORDPRESS_HOST: wordpress:80
-      MYSQL_NGINX_HOST: nginx:80
+      MYSQL_WORDPRESS_HOST: wordpress:9000
+      MYSQL_NGINX_HOST: nginx:443
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: wordpress_data
       MYSQL_USER: guhernan
@@ -59,7 +59,7 @@ services :
   wordpress:
     depends_on:
       - db
-    container_name: inc_wordpress
+    container_name: wordpress
     tty: true
     stdin_open: true
     build:
@@ -81,7 +81,7 @@ services :
   nginx:
     depends_on:
       - wordpress
-    container_name: inc_nginx
+    container_name: nginx
     tty: true
     stdin_open: true
     build:
@@ -90,7 +90,7 @@ services :
     # env_file: nginx.env
     environment:
       NGINX_DB_HOST: db:3306
-      NGINX_WORDPRESS_HOST: wordpress:80
+      NGINX_WORDPRESS_HOST: wordpress:9000
     volumes:
        - wordpress_volume:/var/www/html:rw
     ports:

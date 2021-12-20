@@ -19,7 +19,7 @@ WORKDIR /tmp
 # # documentation :
 # https://wiki.alpinelinux.org/wiki/MariaDB
 
-RUN		apk update && apk upgrade && apk add openrc wget vim php7 php7-common \
+RUN		apk update && apk upgrade && apk add openrc wget vim mariadb-client php7 php7-common \
 		php7-fpm php7-json php7-zlib php7-xml php7-xmlwriter php7-simplexml php7-pdo php7-phar php7-openssl \
 		php7-pdo_mysql php7-mysqli php7-session \
 		php7-gd php7-iconv php7-mcrypt php7-gmp php7-zip \
@@ -39,4 +39,4 @@ WORKDIR		/var/www/html/wordpress
 
 RUN		addgroup admin
 
-CMD		/bin/sh
+CMD		["sh", "/tmp/launch_install_wp.sh"]
