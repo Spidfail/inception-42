@@ -20,14 +20,16 @@ WORKDIR	/app
 # https://wiki.alpinelinux.org/wiki/MariaDB
 
 
-RUN		apt update \
-		&& apt-get install -y vim mariadb-server mariadb-client systemd \
-		&& service mariadb start \
-		&& mariadb -u root < db.sql \
-		&& cp ./my.cnf /etc/
+RUN		apt -y update && apt -y upgrade \
+		&& apt-get install -y vim mariadb-server mariadb-client
+
+RUN		cp ./my.cnf /etc/mysql/
+RUN		service mariadb start \
+		&& mysql -u root < db.sql
 
 
-CMD		["/bin/sh"]
+CMD		["mysqld_safe"]
+#CMD		["/bin/bash"]
 
 		# && apk add openrc \
 		# && mkdir /run/openrc\

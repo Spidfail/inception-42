@@ -10,14 +10,19 @@
 --                                                                              #
 -- **************************************************************************** #
 
-CREATE USER 'guhernan'@'localhost' IDENTIFIED BY 'guhernan';
+CREATE DATABASE wordpress_data;
+
+CREATE USER 'guhernan'@'localhost' IDENTIFIED BY 'wordpress';
+CREATE USER 'guhernan'@'%' IDENTIFIED BY 'wordpress';
 GRANT ALL ON *.* TO 'guhernan'@'localhost' IDENTIFIED BY 'wordpress' WITH GRANT OPTION;
+GRANT ALL ON *.* TO 'guhernan'@'%' IDENTIFIED BY 'wordpress' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 
-CREATE DATABASE wordpress_data;
-FLUSH PRIVILEGES;
 
 CREATE USER 'user'@'localhost' IDENTIFIED BY 'user';
+CREATE USER 'user'@'%' IDENTIFIED BY 'user';
 GRANT SELECT ON worpress_data.* TO 'user'@'localhost' IDENTIFIED BY 'user';
 GRANT INSERT ON worpress_data.* TO 'user'@'localhost' IDENTIFIED BY 'user';
+GRANT SELECT ON worpress_data.* TO 'user'@'%' IDENTIFIED BY 'user';
+GRANT INSERT ON worpress_data.* TO 'user'@'%' IDENTIFIED BY 'user';
 FLUSH PRIVILEGES;

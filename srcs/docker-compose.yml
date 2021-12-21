@@ -27,7 +27,9 @@ volumes:
       o: bind
 
 networks:
-  inc_network:
+  nginx_network:
+    driver: bridge
+  db_network:
     driver: bridge
 
 
@@ -43,7 +45,6 @@ services :
     # env_file: mariadb.env
     environment:
       MYSQL_WORDPRESS_HOST: wordpress:9000
-      MYSQL_NGINX_HOST: nginx:443
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: wordpress_data
       MYSQL_USER: guhernan
@@ -51,11 +52,11 @@ services :
     volumes:
       - db_volume:/var/lib/mysql:rw
     networks:
-      - "inc_network"
+      - "nginx_network"
+      - "db_network"
     restart: always
-
   
-      
+  
   wordpress:
     depends_on:
       - db
@@ -66,15 +67,17 @@ services :
       context: ./requirements/wordpress
       dockerfile: Dockerfile
     environment:
+      WORDPRESS_NGINX_HOST: nginx:443
       WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DB_USER: guhernan
-      WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress_data
+      WORDPRESS_DB_PASSWORD: wordpress
     volumes:
       - wordpress_volume:/var/www/html/wordpress:rw
     # env_file: wordpress.env
     networks:
-      - "inc_network"
+      - "nginx_network"
+      - "db_network"
     restart: always
  
 
@@ -89,13 +92,12 @@ services :
       dockerfile: Dockerfile
     # env_file: nginx.env
     environment:
-      NGINX_DB_HOST: db:3306
       NGINX_WORDPRESS_HOST: wordpress:9000
     volumes:
        - wordpress_volume:/var/www/html:rw
     ports:
       - "443:443"
     networks:
-      - "inc_network"
+      - "nginx_network"
     restart: always 
    
