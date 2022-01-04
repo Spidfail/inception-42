@@ -26,3 +26,6 @@ GRANT INSERT ON worpress_data.* TO 'user'@'localhost' IDENTIFIED BY 'user';
 GRANT SELECT ON worpress_data.* TO 'user'@'%' IDENTIFIED BY 'user';
 GRANT INSERT ON worpress_data.* TO 'user'@'%' IDENTIFIED BY 'user';
 FLUSH PRIVILEGES;
+
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';
+FLUSH PRIVILEGES;
