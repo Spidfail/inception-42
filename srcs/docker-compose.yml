@@ -73,7 +73,7 @@ services :
       WORDPRESS_DB_NAME: wordpress_data
       WORDPRESS_DB_PASSWORD: wordpress
     volumes:
-      - wordpress_volume:/var/www/html/wordpress:rw
+      - wordpress_volume:/var/www/html:rw
     # env_file: wordpress.env
     networks:
       - "nginx_network"
@@ -100,4 +100,3 @@ services :
     networks:
       - "nginx_network"
     restart: always 
-   

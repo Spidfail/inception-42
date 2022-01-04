@@ -10,17 +10,17 @@
 #                                                                              #
 # **************************************************************************** #
 
-FROM	debian
+FROM	debian:buster
 
 COPY	. /tmp
 
 WORKDIR	/tmp
 
 RUN		apt-get -y update && apt-get -y upgrade \
-		&& apt-get install -y vim openssl curl ca-certificates nginx \
+		&& apt-get install -y vim openssl curl ca-certificates nginx snapd \
 		&& mv nginx.conf /etc/nginx/nginx.conf \
-		&& addgroup --system --gid 101 nginx \
-		&& adduser --system --disabled-login --ingroup nginx --no-create-home --home /nonexistent --gecos "nginx user" --shell /bin/false --uid 101 nginx
+		&& openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/guhernan.42.fr.key -out /etc/ssl/certs/guhernan.42.fr.pem \
+		-subj "/C=Fr/CN=guhernan.42.fr/ST=Rhone-Alpes/L=Lyon"
 
 # nginx location : /etc/nginx -> nginx.conf
 # set TLS v1.3 :

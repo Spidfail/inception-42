@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-FROM	debian
+FROM	debian:buster
 
 COPY	. /app
 
@@ -24,11 +24,11 @@ RUN		apt -y update && apt -y upgrade \
 		&& apt-get install -y vim mariadb-server mariadb-client
 
 RUN		cp ./my.cnf /etc/mysql/
-RUN		service mariadb start \
+RUN		service mysql start \
 		&& mysql -u root < db.sql
 
 
-CMD		["mysqld_safe"]
+CMD		["mysqld", "--user=root"]
 #CMD		["/bin/bash"]
 
 		# && apk add openrc \
