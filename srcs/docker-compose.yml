@@ -42,13 +42,8 @@ services :
     build:
       context: ./requirements/mariadb
       dockerfile: Dockerfile
-    # env_file: mariadb.env
-    environment:
-      MYSQL_WORDPRESS_HOST: wordpress:9000
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: wordpress_data
-      MYSQL_USER: guhernan
-      MYSQL_PASSWORD: wordpress
+    env_file:
+      - ./requirements/mariadb/.mariadb.env
     volumes:
       - db_volume:/var/lib/mysql:rw
     networks:
@@ -66,15 +61,10 @@ services :
     build:
       context: ./requirements/wordpress
       dockerfile: Dockerfile
-    environment:
-      WORDPRESS_NGINX_HOST: nginx:443
-      WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_USER: guhernan
-      WORDPRESS_DB_NAME: wordpress_data
-      WORDPRESS_DB_PASSWORD: wordpress
+    env_file:
+      - ./requirements/wordpress/.wordpress.env
     volumes:
       - wordpress_volume:/var/www/html:rw
-    # env_file: wordpress.env
     networks:
       - "nginx_network"
       - "db_network"
@@ -90,9 +80,8 @@ services :
     build:
       context: ./requirements/nginx
       dockerfile: Dockerfile
-    # env_file: nginx.env
-    environment:
-      NGINX_WORDPRESS_HOST: wordpress:9000
+    env_file:
+      - ./requirements/nginx/.nginx.env
     volumes:
        - wordpress_volume:/var/www/html:rw
     ports:
