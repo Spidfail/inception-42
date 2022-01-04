@@ -47,7 +47,6 @@ services :
     volumes:
       - db_volume:/var/lib/mysql:rw
     networks:
-      - "nginx_network"
       - "db_network"
     restart: always
   
