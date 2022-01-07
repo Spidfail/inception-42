@@ -36,6 +36,7 @@ networks:
 services :
 
   db:
+    image: db
     container_name: db
     tty: true
     stdin_open: true
@@ -49,9 +50,10 @@ services :
     networks:
       - "db_network"
     restart: always
-  
-  
+ 
+ 
   wordpress:
+    image: wordpress
     depends_on:
       - db
     container_name: wordpress
@@ -71,6 +73,7 @@ services :
  
 
   nginx:
+    image: nginx
     depends_on:
       - wordpress
     container_name: nginx
