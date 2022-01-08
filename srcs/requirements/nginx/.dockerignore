@@ -1,0 +1,4 @@
+# Ignore unnecessary files
+Dockerfile
+*.env
+.dockerignore

@@ -25,7 +25,7 @@ RUN		apt-get -y update && apt-get -y upgrade \
 # nginx location : /etc/nginx -> nginx.conf
 # set TLS v1.3 :
 # # nginx.conf : remove : TLSv1.1 [l.57] 
-# # add : # TLS 1.3 only
+# # add (only) : TLS 1.3
 # # ssl_protocols TLSv1.3;
 # # ssl_prefer_server_ciphers off;
 # # reload nginx
